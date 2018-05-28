@@ -19,8 +19,11 @@ then
 
 	echo "restoring ${line[$opt]::-1}"
 
+	tar -xzvf $2/${line[$opt]::-1}.tar.gz --directory=$2
+
 	rsync -avzP --delete $2/${line[$opt]::-1}/* $1/..
 
+	rm -rf $2/${line[$opt]::-1}
 
 elif [[ $3 == "remote" ]]
 then

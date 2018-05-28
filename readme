@@ -1,0 +1,67 @@
+Backup 
+	./backup.sh <type> <src_dir> <dest_dir> <mode>
+
+	Backs up the files in <src_dir> to <dest_dir> via <mode>
+
+	<type> 		: incremental or full
+				  full creates a complete backup by  backing up all the files
+				  incremental creates backup of only files which are updated
+
+	<src_dir> 	: Directory which is to backup
+	<dest_dir> 	: Directory in which the backups are to be stored
+	<mode> 		: local or remote
+				  local stores backup at some location in the local pc
+				  remote stores the bcakup at server via ssh 
+
+Restore
+	./restore.sh <src_dir> <dest_dir> <mode>
+
+	Shows all the backups that are present in the <dest_dir>. Select a backup which is to be restored. Restores the <src_dir> to the state of selected backup.
+
+	<src_dir> 	: Directory which is to restored
+	<dest_dir> 	: Directory in which the backups are to be stored
+	<mode> 		: local or remote
+				  local stores backup at some location in the local pc
+				  remote stores the bcakup at server via ssh 
+
+
+List Backup
+	
+	./showBackup.sh <mode> <dest_dir>
+
+	Shows a list of all backups that are available at <dest_dir>
+
+	<dest_dir> 	: Directory in which the backups are to be stored
+	<mode> 		: local or remote
+				  local stores backup at some location in the local pc
+				  remote stores the bcakup at server via ssh 
+
+Adding key for SSH authentication
+	
+	./addKey.sh
+
+	Generates a key for SSH authentication. Then prompts for <path> at  which the key is stored. Adds key for the SSH host
+
+Structure of conf file
+	
+	Create a file named conf to store all the configuration
+
+	STRUCTURE:
+	
+	<ssh_user>
+	<ssh_ip>
+	<mode>
+	<user>
+	<ip>
+	<updation_limit>
+	<src_dir>
+
+	DESCRIPTION:
+
+	<ssh_user> 			: User name of the server
+	<ssh_ip> 			: Ip address of the server 
+	<mode>				: Remote or local
+	<user>				: Username of the local pc
+	<ip>				: Ip address of the local pc
+	<updation_limit>	: Size limit after which an automatic backup is to be stored
+	<src_dir>			: Directory which is to be monitored

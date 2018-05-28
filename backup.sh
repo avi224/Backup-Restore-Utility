@@ -3,10 +3,10 @@ d=${d// /.}
 
 readarray c < conf
 
-ssh_host=${c[0]}
+ssh_host="indresh@127.0.0.1"
 user="indresh"
-ssh_user="pramod"
-ssh_ip="10.8.20.145"
+ssh_user="indresh"
+ssh_ip="127.0.0.1"
 
 if [[ $4 == "local" ]]
 then 
@@ -30,15 +30,13 @@ then
 			exit 1
 		fi
 
-		tar -xzvf $3/prevdate.tar.gz
-		cp -r $3/$prevdate $3/tmp
+		tar -xzvf $3/$prevdate.tar.gz --directory=$3
 		mv $3/$prevdate $3/$d
-		mv $3/tmp $3/$prevdate
 	fi
 
 	rsync -avzP --delete $2 $3/$d
 
-	tar -czvf $3/$d.tar.gz $3/$d
+	tar -czvf $3/$d.tar.gz --directory=$3 $d
 
 	rm -rf $3/$d
 
@@ -64,13 +62,15 @@ then
 			echo "Error: No previous full backup exists"
 			exit 1 
 		fi
-
-		ssh $ssh_user@$ssh_ip "cp -r $3/$prevdate $3/tmp"
+		ssh $ssh_user@$ssh_ip "tar -xzvf $3/$prevdate.tar.gz --directory=$3"
 		ssh $ssh_user@$ssh_ip "mv $3/$prevdate $3/$d"
-		ssh $ssh_user@$ssh_ip "mv $3/tmp $3/$prevdate"
 	fi
 
 	rsync -avzP --delete $2 -e ssh $ssh_user@$ssh_ip:$3/$d
+
+	ssh $ssh_user@$ssh_ip "tar -czvf $3/$d.tar.gz --directory=$3 $d"
+
+	ssh $ssh_user@$ssh_ip "rm -rf $3/$d"
 
 	echo $d $3 >> backups.log  
 	ssh $ssh_user@$ssh_ip "echo ${d} >> ${3}/backups.log"

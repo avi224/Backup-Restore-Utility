@@ -17,9 +17,9 @@ then
 	
 	read -p "Choose backup : " opt
 
-	echo "restoring ${line[$opt]}"
+	echo "restoring ${line[$opt]::-1}"
 
-	rsync -avzP --delete $2/${line[$opt]}/ $1/..
+	rsync -avzP --delete $2/${line[$opt]::-1}/* $1/..
 
 
 elif [[ $3 == "remote" ]]
@@ -35,8 +35,8 @@ then
 
 	read -p "Choose backup : " opt
 
-	echo "restoring ${line[$opt]}"
+	echo "restoring ${line[$opt]::-1}"
 
-	rsync -avzP --delete $2/${line[$opt]}/* -e ssh $ssh_user@$ssh_ip:$1/..
+	echo rsync -avzP --delete '"$2"'/${line[$opt]::-1}/* -e ssh '"$user@$127.0.0.1:$1/.."'
 	' 
 fi
